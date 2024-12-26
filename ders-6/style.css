@@ -1,0 +1,12 @@
+.başlık {
+  background-color: red;
+  font-size: 40px;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+.başlık-1 {
+  background-color: gray;
+  padding: 30px;
+  font-size: 60px;
+}
