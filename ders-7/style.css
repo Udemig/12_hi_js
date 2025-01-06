@@ -1,0 +1,92 @@
+.create-btn {
+  border: none;
+  outline: none;
+  padding: 8px 12px;
+  font-size: 15px;
+  border-radius: 10px;
+  background-color: green;
+  color: white;
+}
+
+.container {
+  width: 200px;
+  height: 200px;
+  background-color: gray;
+  margin-top: 20px;
+  overflow: auto;
+  padding: 10px;
+}
+
+.container-eleman {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.form {
+  background-color: red;
+  padding: 20px;
+  width: 300px;
+}
+
+.dark-tema {
+  background-color: black;
+  color: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-image: linear-gradient(
+    to right top,
+    #051937,
+    #004d7a,
+    #008793,
+    #00bf72,
+    #a8eb12
+  );
+  padding: 20px;
+  max-width: 500px;
+  margin-top: 50px;
+  border-radius: 10px;
+}
+
+form label {
+  font-size: 25px;
+  color: white;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+form input {
+  border: none;
+  outline: none;
+  padding: 8px;
+  border-radius: 5px;
+  text-indent: 5px;
+}
+form button {
+  border: none;
+  outline: none;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  background-image: linear-gradient(
+    to left,
+    #d16ba5,
+    #c777b9,
+    #ba83ca,
+    #aa8fd8,
+    #9a9ae1,
+    #8aa7ec,
+    #79b3f4,
+    #69bff8,
+    #52cffe,
+    #41dfff,
+    #46eefa,
+    #5ffbf1
+  );
+  color: white;
+  margin-top: 20px;
+}
