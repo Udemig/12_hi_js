@@ -21,9 +21,15 @@ const popupBox = document.querySelector(".popup");
 const closeBtn = document.querySelector("header i");
 const form = document.querySelector("form");
 const wrapper = document.querySelector(".wrapper");
+const popupTitle = document.querySelector("header p");
+const submitBtn = document.querySelector("#submit-btn");
 
 // ! localstorage'dan noteları al ve eğer localde not yoksa boş bizi dönder
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
+
+// ! Güncelleme için gereken değişkenler
+let isUpdate = false;
+let updateId = null;
 
 // ! Fonksiyonlar ve olay izleyicileri
 
@@ -88,6 +94,30 @@ wrapper.addEventListener("click", (e) => {
   }
 
   // Eğer güncelle ikonuna tıklanıldıysa
+  else if (e.target.classList.contains("updateIcon")) {
+    // Tıklanılan note elemanına eriş
+    const note = e.target.closest(".note");
+    // Note elemanının idsine eriş
+    const noteId = parseInt(note.dataset.id);
+    // Note dizisi içerisinde id'si bilinen elemanı bul
+    const foundedNote = notes.find((note) => note.id == noteId);
+
+    // Popup içerisindeki elemanlara note değerlerini ata
+    form[0].value = foundedNote.title;
+    form[1].value = foundedNote.description;
+
+    // Güncelleme modunu aktif et
+    isUpdate = true;
+    updateId = noteId;
+
+    // Popup'ı aç
+    popupBoxContainer.classList.add("show");
+    popupBox.classList.add("show");
+
+    // Popup içerisindeki gerekli alanları update e göre düzenle
+    popupTitle.textContent = "Update Note";
+    submitBtn.textContent = "Update";
+  }
 });
 
 // Form'a bir olay izleyisi ekle ve form içerisindeki verilere eriş
@@ -114,15 +144,36 @@ form.addEventListener("submit", (e) => {
   let year = date.getFullYear();
   let month = months[date.getMonth()];
 
-  // Elde edilen verileri bir note objesi altında topla
-  let noteInfo = {
-    title,
-    description,
-    date: `${month} ${day},${year}`,
-    id,
-  };
-  // noteInfo objesini notes dizisine ekle
-  notes.push(noteInfo);
+  // Eğer güncelleme modundaysa
+  if (isUpdate) {
+    // Güncelleme yapılacak elemanın dizi içerisindeki indexini bul
+    const noteIndex = notes.findIndex((note) => {
+      return note.id == updateId;
+    });
+
+    // Dizi içerisinde yukarıda bulunan index'deki elemanın değerlerini güncelle
+    notes[noteIndex] = {
+      title,
+      description,
+      id,
+      date: `${month} ${day},${year}`,
+    };
+    // Güncelleme modunu kapat ve popup içerisindeki elemanları eskiye çevir
+    isUpdate = false;
+    updateId = null;
+    popupTitle.textContent = "New Note";
+    submitBtn.textContent = "Add Note";
+  } else {
+    // Elde edilen verileri bir note objesi altında topla
+    let noteInfo = {
+      title,
+      description,
+      date: `${month} ${day},${year}`,
+      id,
+    };
+    // noteInfo objesini notes dizisine ekle
+    notes.push(noteInfo);
+  }
 
   // notes dizisini localstorage a ekle
   localStorage.setItem("notes", JSON.stringify(notes));
