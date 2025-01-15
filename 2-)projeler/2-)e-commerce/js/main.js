@@ -1,4 +1,5 @@
-import { fetchProducts } from "./product.js";
+import { addToCart, displayCartTotal, renderCartItems } from "./cart.js";
+import { fetchProducts, renderProducts } from "./product.js";
 
 const menuIcon = document.querySelector("#menu-icon");
 const menu = document.querySelector(".navbar");
@@ -10,11 +11,16 @@ menuIcon.addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   if (window.location.pathname.includes("/cart.html")) {
-    console.log(`Cart sayfası`);
+    // Eğer sepet sayfasındaysak sepete eklenen ürünleri render et
+    renderCartItems();
+    // Sepet toplamını render eden fonksiyonu çalıştır
+    displayCartTotal();
   } else {
     // Eğer anasayfadaysak api'a istek at ve verileri al
     const products = await fetchProducts();
-    console.log(products);
     // Api'dan gelen verileri ekrana render et
+    renderProducts(products, (e) => {
+      addToCart(e, products);
+    });
   }
 });
