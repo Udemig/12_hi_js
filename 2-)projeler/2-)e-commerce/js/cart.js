@@ -3,6 +3,7 @@ import {
   calculateCartTotal,
   getFromLocalStorage,
   saveToLocalStorage,
+  updateCartIcon,
 } from "./utils.js";
 
 // Localstorage'dan cart verisini al
@@ -37,11 +38,21 @@ const addToCart = (e, products) => {
     }
     // Cart dizisini localstorage a ekle
     saveToLocalStorage(cart);
+
+    // Sepete ekle butonun içeriğini güncelle
+    e.target.textContent = "Added";
+
+    // 2s sonra elemanın içeriğini tekrardan eski hale çevir
+    setTimeout(() => {
+      e.target.textContent = "Add to cart";
+    }, 2000);
+
+    // Sepet ikonunu güncelle
+    updateCartIcon(cart);
   }
 };
 
 // ! Sepetten ürün kaldıracak fonksiyon
-
 const removeFromCart = (e) => {
   // Tıklanılan elemanın id'sine eriş
   const productId = parseInt(e.target.dataset.id);
@@ -57,6 +68,33 @@ const removeFromCart = (e) => {
 
   // Sepet toplamını render et
   displayCartTotal();
+
+  // Sepet ikonunu güncelle
+  updateCartIcon(cart);
+};
+// Sepetteki ürün miktarını güncelleyen fonksiyon
+
+const onQuantityChange = (e) => {
+  const productId = +e.target.dataset.id;
+  const newQuantity = +e.target.value;
+
+  // Sepeteki elemanın değeri 0'dan büyükse
+  if (newQuantity > 0) {
+    // Sepet içerisinde miktarı değişen elemanı bul
+    const cartItem = cart.find((item) => item.id === productId);
+
+    // Bulunan elemanın miktarını güncelle
+    cartItem.quantity = newQuantity;
+
+    // localstorag'ı güncelle
+    saveToLocalStorage(cart);
+
+    // toplam fiyatı güncelle
+    displayCartTotal();
+
+    // Sepet ikonunu güncelle
+    updateCartIcon(cart);
+  }
 };
 
 // ! Sepetteki ürünleri render edecek fonksiyon
@@ -72,7 +110,7 @@ const renderCartItems = () => {
 
               <div class="cart-item-info">
                 <h2 class="cart-item-title">${item.title}</h2>
-                <input type="number" min="1"  value="${item.quantity}" />
+                <input type="number" min="1" class='cart-item-quantity' data-id='${item.id}'  value="${item.quantity}" />
               </div>
 
               <h2 class="cart-item-price">$ ${item.price}</h2>
@@ -92,6 +130,18 @@ const renderCartItems = () => {
 
     // Bu butonlara bir tıklanma gerçekleştiğinde bir fonksiyon tetikle
     removeButton.addEventListener("click", removeFromCart);
+  }
+
+  // cart-item-quantity classına sahip tüm elemanlara eriş
+  const quantityInputs = document.querySelectorAll(".cart-item-quantity");
+
+  // quantityInputs içerisindeki herbir inputa ayrı ayrı eriş
+
+  for (let i = 0; i < quantityInputs.length; i++) {
+    const quantityInput = quantityInputs[i];
+
+    // quantityInput lara birer olay izleyicisi ekle
+    quantityInput.addEventListener("change", onQuantityChange);
   }
 };
 

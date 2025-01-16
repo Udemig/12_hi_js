@@ -1,5 +1,6 @@
 import { addToCart, displayCartTotal, renderCartItems } from "./cart.js";
 import { fetchProducts, renderProducts } from "./product.js";
+import { getFromLocalStorage, updateCartIcon } from "./utils.js";
 
 const menuIcon = document.querySelector("#menu-icon");
 const menu = document.querySelector(".navbar");
@@ -10,6 +11,10 @@ menuIcon.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Localstorage'dan cart verisini al
+
+  let cart = getFromLocalStorage();
+
   if (window.location.pathname.includes("/cart.html")) {
     // Eğer sepet sayfasındaysak sepete eklenen ürünleri render et
     renderCartItems();
@@ -23,4 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       addToCart(e, products);
     });
   }
+
+  // Sepet ikonunu güncelle
+  updateCartIcon(cart);
 });

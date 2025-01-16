@@ -1,3 +1,5 @@
+import elements from "./helpers.js";
+
 // ! Localstorage'a ekleme yapan fonksiyon
 const saveToLocalStorage = (cart) => {
   // Dışarıdan verilen elemanı string e çevir ve localstorage'a ekle
@@ -14,7 +16,6 @@ const getFromLocalStorage = () => {
 };
 
 // ! Sepet toplamını hesaplayan fonksiyon
-
 const calculateCartTotal = (cart) => {
   // cart'daki ürünlerin miktar ve fiyatını çarparak toplam sonucu elde et
   return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -26,4 +27,21 @@ const calculateCartTotal = (cart) => {
   // ! reduce'un 3. parametresi bir başlangıç değeri vardır. Bu değer, reduce'un başladığında dizi elemanları dönmek için ilk değerdir. Bu değer varsayılan olarak 0'dır.
 };
 
-export { saveToLocalStorage, getFromLocalStorage, calculateCartTotal };
+const updateCartIcon = (cart) => {
+  // Septteki toplam ürün miktarını hesapla
+  let totalQuantity = cart.reduce((sum, item) => {
+    return sum + item.quantity;
+  }, 0);
+
+  // Septteki ürün miktarını dinamik şekilde render et
+  elements.icon.setAttribute("data-quantity", totalQuantity);
+
+  // setAttribute bir elemana attribute eklemek için kullanılır
+};
+
+export {
+  saveToLocalStorage,
+  getFromLocalStorage,
+  calculateCartTotal,
+  updateCartIcon,
+};
