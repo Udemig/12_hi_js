@@ -4,6 +4,7 @@
 */
 
 import fetchMenu from "./api.js";
+import { elements, renderDetailPage, renderNotFound } from "./ui.js";
 
 // Js içerisindeki URLSearchParams classı parametreleri alıp kullanmas noktasında bize kolaylık sağlar
 const params = new URLSearchParams(window.location.search);
@@ -18,5 +19,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Url'den alınan id'ye sahip ürünü bul
   const product = data.find((item) => item.id === id);
 
-  console.log(product);
+  if (!product) {
+    // Ürün bulunamadıysa Not Founded içeriğini render et
+    renderNotFound(elements.detailContainer);
+  } else {
+    // Detay verisini bilinen ürün ile arayüzü renderla
+    renderDetailPage(product, elements.detailContainer);
+  }
 });
