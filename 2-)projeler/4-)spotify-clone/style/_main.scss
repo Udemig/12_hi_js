@@ -118,6 +118,10 @@ main {
               scale: 1.1;
               rotate: 360deg;
             }
+            i {
+              // Play elemanına tıklanınca i etiketinin  pointer-events değerinden ötürü tıklanılmayı doğru şekilde izleyemedik.Bunu  düzeltmek için i etiketinin  pointer-events'i kaldırdık.
+              pointer-events: none;
+            }
           }
         }
         .card-info {

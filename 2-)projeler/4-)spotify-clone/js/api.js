@@ -9,17 +9,24 @@ const options = {
 export class API {
   // Popular şarkıları alan fonksiyon
   async getPopular() {
-    const url = "https://shazam.p.rapidapi.com/search?term=Neffex";
+    // const url = "https://shazam.p.rapidapi.com/search?term=Neffex";
 
-    // Apı'a istek at
-    const response = await fetch(url, options);
+    // // Apı'a istek at
+    // const response = await fetch(url, options);
 
-    // Apı'dan gelen veriyi js nesnesine çevir
-    const data = await response.json();
+    // // Apı'dan gelen veriyi js nesnesine çevir
+    // const data = await response.json();
 
-    const formattedData = data.tracks.hits.map((item) => item.track);
+    // const formattedData = data.tracks.hits.map((item) => item.track);
 
-    return formattedData;
+    // return formattedData;
+
+    const data = await this.searchMusic("neffex");
+
+    const data1 = await this.searchMusic("eminem");
+    const data2 = await this.searchMusic("tupac");
+
+    return [...data, ...data1, ...data2];
   }
 
   // Aratılan şarkı verisini alan fonksiyon
